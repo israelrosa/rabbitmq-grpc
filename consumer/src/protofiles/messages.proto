@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package messages;
+
+service MessagesService {
+  rpc findAllMessages (GetAllMessagesParams) returns (MessagesResponse) {}
+  rpc findOneMessage (GetOneMessageParams) returns (Message) {}
+  rpc findMany(stream GetOneMessageParams) returns (stream Message) {}
+  rpc createMessage(CreateMessageDTO) returns(Message) {}
+}
+
+message GetAllMessagesParams {}
+
+message GetOneMessageParams {
+  int32 id = 1;
+}
+
+message Message {
+  optional int32 id = 1;
+  optional string text = 2;
+}
+
+message CreateMessageDTO {
+  string text = 1;
+}
+
+message MessagesResponse {
+  repeated Message data = 1;
+}

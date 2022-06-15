@@ -5,6 +5,7 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
   await app.connectMicroservice({
     transport: Transport.GRPC,
     options: {
@@ -13,6 +14,17 @@ async function bootstrap() {
       url: 'localhost:50051',
     },
   });
+  await app.connectMicroservice({
+    transport: Transport.RMQ,
+    options: {
+      urls: ['amqp://myuser:mypassword@$localhost:5672'],
+      queue: 'queue-test',
+      queueOptions: {
+        durable: true,
+      },
+    },
+  });
+
   await app.startAllMicroservices();
   await app.listen(3001);
 }

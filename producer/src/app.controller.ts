@@ -1,15 +1,21 @@
-import { Controller } from '@nestjs/common';
-import { GrpcMethod, GrpcStreamCall } from '@nestjs/microservices';
+import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
+import { Controller, Inject } from '@nestjs/common';
+import { ClientProxy, GrpcMethod, GrpcStreamCall } from '@nestjs/microservices';
 import { AppService } from './app.service';
-import { Message } from './interfaces/message.interface';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(
+    private readonly amqpConnection: AmqpConnection,
+    private readonly appService: AppService,
+  ) {}
 
   @GrpcMethod('MessagesService', 'createMessage')
-  createMessage(data: { text: string }) {
-    return this.appService.createMessage(data.text);
+  async createMessage(data: { text: string }) {
+    const message = this.appService.createMessage(data.text);
+    await this.amqpConnection.publish('Test', 'message', message);
+
+    return message;
   }
 
   @GrpcMethod('MessagesService', 'findAllMessages')

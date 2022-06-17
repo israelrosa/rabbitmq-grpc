@@ -1,7 +1,7 @@
-# kafka-rabbitmq-grpc
+rabbitmq-grpc
 
 ## About
-  This repository is a test of communication between systems using Kafka, RabbitMQ and gRPC with nestjs framework. Hope you like
+  This repository is a test of communication between systems using RabbitMQ and gRPC with nestjs framework.
 
 ## How to start
 

@@ -1,4 +1,4 @@
-rabbitmq-grpc
+# rabbitmq-grpc
 
 ## About
   This repository is a test of communication between systems using RabbitMQ and gRPC with nestjs framework.
